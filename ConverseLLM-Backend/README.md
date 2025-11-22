@@ -273,7 +273,6 @@ Body: {
 
 ## Collaborators
 
-Please add the following as collaborators to this repository:
 - **surajamit** (Amit Purushottam Pimpalkar) - Project Supervisor
 
 ## Additional Resources
