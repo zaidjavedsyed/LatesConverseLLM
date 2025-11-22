@@ -49,13 +49,13 @@ const features = [
 
 const FeatureSection = () => {
   return (
-    <section className="py-6">
+    <section className="py-6 bg-white dark:bg-slate-900">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <div className="mb-14 text-center">
-          <h2 className="text-5xl text-center text-gray-900 py-5">
+          <h2 className="text-5xl text-center text-gray-900 dark:text-white py-5">
             Revolutionary Features
           </h2>
-          <p className="text-lg font-normal text-gray-500 max-w-md md:max-w-2xl mx-auto">
+          <p className="text-lg font-normal text-gray-500 dark:text-gray-400 max-w-md md:max-w-2xl mx-auto">
             Provides advanced features that streamline the modern way of
             answering user queries by Search-engine optimization(SEO)
             techniques.
@@ -87,10 +87,10 @@ const FeatureSection = () => {
                   ></path>
                 </svg>
               </div>
-              <h4 className="text-lg font-medium text-gray-900 mb-3 capitalize">
+              <h4 className="text-lg font-medium text-gray-900 dark:text-white mb-3 capitalize">
                 {feature.title}
               </h4>
-              <p className="text-lg font-normal text-gray-500">
+              <p className="text-lg font-normal text-gray-500 dark:text-gray-400">
                 {feature.description}
               </p>
             </div>

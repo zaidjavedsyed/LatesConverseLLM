@@ -2,10 +2,17 @@
 import React from "react";
 import Image from "next/image";
 import { useEffect, useState } from "react";
-import SiteGenieLogo from "./sitegenie-logo";
+import { useTheme } from "next-themes";
+import { Moon, Sun } from "lucide-react";
 
 const Navbar = () => {
   const [isScrolled, setIsScrolled] = useState(false);
+  const [mounted, setMounted] = useState(false);
+  const { theme, setTheme } = useTheme();
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -28,7 +35,7 @@ const Navbar = () => {
 
   return (
     <nav
-      className={`bg-white bg-opacity-50 fixed w-full z-20 top-0 start-0 border-b border-gray-200 dark:border-gray-200 ${
+      className={`bg-white/50 dark:bg-slate-900/50 fixed w-full z-20 top-0 start-0 border-b border-gray-200 dark:border-slate-700 ${
         isScrolled ? "backdrop-blur-md" : ""
       }`}
     >
@@ -36,30 +43,28 @@ const Navbar = () => {
         {" "}
         {/* Reduced padding */}
         <a href="/" className="flex items-center space-x-3">
-          <span className="self-center text-black text-4xl">
-            {/* Site<span className="text-indigo-600">Genie</span> */}
+          <span className="self-center text-black dark:text-white text-4xl">
             <div className="relative w-44 h-16">
-              {" "}
-              {/* Adjusted width and height */}
               <Image
-                src="/sitegenie-logo.png"
-                alt="Description of the image"
+                src="/sitegenie-2.png"
+                alt="ConverseLLM Logo"
                 layout="fill"
                 objectFit="contain"
               />
             </div>
-            {/* <SiteGenieLogo /> */}
           </span>
         </a>
         <div className="flex items-center space-x-3 md:space-x-3 rtl:space-x-reverse md:order-2">
-          <button className="bg-indigo-50 text-violet-800 rounded-full cursor-pointer font-semibold text-center shadow-xs transition-all duration-500 py-2 px-4 text-sm hover:bg-indigo-100">
-            {" "}
-            {/* Reduced padding */}
+          <button 
+            onClick={() => setTheme(theme === 'dark' ? 'light' : 'dark')}
+            className="p-2 rounded-lg bg-gray-100 dark:bg-slate-800 hover:bg-gray-200 dark:hover:bg-slate-700 transition-colors"
+          >
+            {mounted && (theme === 'dark' ? <Sun className="w-5 h-5" /> : <Moon className="w-5 h-5" />)}
+          </button>
+          <button className="bg-indigo-50 dark:bg-slate-800 text-violet-800 dark:text-violet-300 rounded-full cursor-pointer font-semibold text-center shadow-xs transition-all duration-500 py-2 px-4 text-sm hover:bg-indigo-100 dark:hover:bg-slate-700">
             <a href="/sign-in"> Login</a>
           </button>
-          <button className=" bg-gradient-to-r from-violet-800 to-violet-600 text-white rounded-full cursor-pointer font-semibold text-center shadow-xs transition-all duration-500 py-2 px-4 text-sm hover:bg-indigo-700">
-            {" "}
-            {/* Reduced padding */}
+          <button className="bg-gradient-to-r from-violet-800 to-violet-600 text-white rounded-full cursor-pointer font-semibold text-center shadow-xs transition-all duration-500 py-2 px-4 text-sm hover:bg-indigo-700">
             <a href="/sign-up"> Sign Up</a>
           </button>
           <button

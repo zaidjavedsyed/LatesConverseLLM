@@ -1,8 +1,8 @@
 const serverless = require("serverless-http");
 const express = require('express')
 const bodyParser = require('body-parser');
+require('dotenv').config();
 const app = express()
-const port = 3000
 var cors = require('cors')
 const router = require('./api/chatbot')
 app.use(cors());
@@ -13,7 +13,7 @@ app.get('/', (req, res) => {
   res.send('Hello World!')
 })
 
-const PORT = process.env.PORT || 3000
+const PORT = process.env.PORT || 3001
 app.listen(PORT, () => console.log(`Server is running in port ${PORT}`));
 
 module.exports.handler = serverless(app);

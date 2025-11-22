@@ -10,8 +10,8 @@ const HeroSection = () => {
         <div className="relative bg-cover bg-center p-0 transition-all duration-500 delay-200">
           <main className="relative mx-auto max-w-12xl px-4">
             <div className="text-center space-y-2 pt-20">
-              <div className="border border-violet-800 p-1 w-32 mx-auto rounded-full flex items-center justify-between bg-white hover:bg-violet-50 bg-transparent transition-all duration-300 delay-300">
-                <span className="text-xs font-medium text-gray-900 ml-3">
+              <div className="border border-violet-800 dark:border-violet-400 p-1 w-32 mx-auto rounded-full flex items-center justify-between bg-white dark:bg-gray-800 hover:bg-violet-50 dark:hover:bg-violet-900 bg-transparent transition-all duration-300 delay-300">
+                <span className="text-xs font-medium text-gray-900 dark:text-white ml-3">
                   Try it now !
                 </span>
                 <a
@@ -35,11 +35,11 @@ const HeroSection = () => {
                   </svg>
                 </a>
               </div>
-              <div className="inline-block text-gray-900 bg-transparent transition-all duration-500 delay-500">
+              <div className="inline-block text-gray-900 dark:text-white bg-transparent transition-all duration-500 delay-500">
                 <div className="flex items-center justify-center p-0.5">
                   <Image
                     src="/sitegenie-2.png"
-                    alt="Description of the image"
+                    alt="ConverseLLM Logo"
                     layout="responsive"
                     width={500}
                     height={75}
@@ -49,11 +49,11 @@ const HeroSection = () => {
                 <div className="text-4xl py-10 pb-8 leading-6">
                   Enhance website experience
                 </div>
-                <div className="text-3xl block text-violet-700 xl:inline leading-6">
+                <div className="text-3xl block text-violet-700 dark:text-violet-400 xl:inline leading-6">
                   with our efficient chatbot.
                 </div>
               </div>
-              <p className="max-w-md mx-auto py-1 pt-5 text-gray-700 text-2xl md:max-w-5xl bg-white bg-opacity-0 transition-all duration-500 delay-700">
+              <p className="max-w-md mx-auto py-1 pt-5 text-gray-700 dark:text-gray-300 text-2xl md:max-w-5xl bg-white dark:bg-gray-900 bg-opacity-0 transition-all duration-500 delay-700">
                 Transform your website experience with our tailored chatbot.
                 Expertly trained for efficiency, it saves you time and delivers
                 unmatched interaction.

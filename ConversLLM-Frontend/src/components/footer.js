@@ -1,49 +1,44 @@
 import { GithubIcon, TwitterIcon } from "lucide-react";
-import SiteGenieLogo from "./sitegenie-logo";
 import Image from "next/image";
+
 const FooterSection = () => {
   return (
     <>
-      <footer class="w-full py-8 bg-white">
-        <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-          <div class="max-w-3xl mx-auto text-center">
-            <a href="/" class="flex justify-center mb-8">
+      <footer className="w-full py-8 bg-white dark:bg-slate-900 border-t border-gray-200 dark:border-slate-700">
+        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+          <div className="max-w-3xl mx-auto text-center">
+            <a href="/" className="flex justify-center mb-8">
               <div className="relative w-64 h-24">
-                {" "}
-                {/* Adjusted width and height */}
                 <Image
-                  src="/sitegenie-logo.png"
-                  alt="Description of the image"
+                  src="/sitegenie-2.png"
+                  alt="ConverseLLM Logo"
                   layout="fill"
                   objectFit="contain"
                 />
               </div>
-              <span class="self-center text-black text-5xl whitespace-nowrap">
-                {/* <SiteGenieLogo />{" "} */}
-              </span>
             </a>
 
-            <div class="flex justify-center items-center space-x-6 mb-8">
+            <div className="flex justify-center items-center space-x-6 mb-8">
               <a
-                href="https://github.com/vedanti-u/site-frontend"
-                class="text-gray-900 transition-all duration-500 hover:text-indigo-600"
+                href="https://github.com/conversellm"
+                className="text-gray-900 dark:text-gray-300 transition-all duration-500 hover:text-indigo-600 dark:hover:text-indigo-400"
               >
                 <GithubIcon width="40px" height="40px" />
               </a>
               <a
-                href="https://x.com/vedbhalerao444"
-                class="text-gray-900 transition-all duration-500 hover:text-indigo-600"
+                href="https://x.com/conversellm"
+                className="text-gray-900 dark:text-gray-300 transition-all duration-500 hover:text-indigo-600 dark:hover:text-indigo-400"
               >
                 <TwitterIcon width="40px" height="40px" />
               </a>
               <a
-                href="https://www.notion.so/90d2c6cd3b544d35aeda0c8ab2bc3700"
-                className="text-gray-900 transition-all duration-500 hover:text-indigo-600"
+                href="https://www.linkedin.com/company/conversellm"
+                className="text-gray-900 dark:text-gray-300 transition-all duration-500 hover:text-indigo-600 dark:hover:text-indigo-400"
               >
                 <svg
                   width="40px"
                   height="40px"
-                  className="hover:stroke-indigo-600"
+                  className="hover:stroke-indigo-600 dark:hover:stroke-indigo-400"
                   viewBox="0 0 24 24"
                   fill="none"
                   xmlns="http://www.w3.org/2000/svg"
@@ -68,8 +63,8 @@ const FooterSection = () => {
               </a>
             </div>
 
-            <span class="text-lg text-gray-500">
-              © <a href="/">SiteGeniei</a> 2023 - Future, All rights reserved.
+            <span className="text-lg text-gray-500 dark:text-gray-400">
+              © <a href="/" className="hover:text-indigo-600 dark:hover:text-indigo-400">ConverseLLM</a> 2024 - Future, All rights reserved.
             </span>
           </div>
         </div>

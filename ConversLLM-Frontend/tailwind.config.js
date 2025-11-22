@@ -10,7 +10,7 @@ module.exports = {
     "./app/**/*.{js,jsx}",
     "./src/**/*.{js,jsx}",
   ],
-  darkMode: "media",
+  darkMode: "class",
   safelist: ["isToggled"],
   theme: {
     fontFamily: {

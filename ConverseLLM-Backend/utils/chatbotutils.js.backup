@@ -6,90 +6,6 @@ var cors = require('cors')
 dotenv.config();
 const { compile } = require("html-to-text");
 //const { HierarchicalNSW } = require("hnswlib-node");
-async function loadWithFallback(url) {
-    const { compile } = require("html-to-text");
-    const compiledConvert = compile({
-        wordwrap: 130,
-        preserveNewlines: true,
-        longWordSplit: { wrapCharacters: ['/', '-'] },
-        selectors: [
-            { selector: 'script', format: 'skip' },
-            { selector: 'style', format: 'skip' },
-            { selector: 'nav', format: 'skip' },
-            { selector: 'header', format: 'skip' },
-            { selector: 'footer', format: 'skip' },
-            { selector: '.product-card', format: 'block' },
-            { selector: '.product-item', format: 'block' },
-            { selector: '.price', format: 'block' },
-            { selector: '.product-title', format: 'block' },
-            { selector: '.product-description', format: 'block' },
-            { selector: '.testimonial', format: 'block' },
-            { selector: '.review', format: 'block' },
-            { selector: 'main', format: 'block' },
-            { selector: 'article', format: 'block' },
-            { selector: '.content', format: 'block' }
-        ]
-    });
-    console.log('🔄 Using hybrid loader for:', url);
-    
-    try {
-        // Step 1: Try RecursiveUrlLoader first (faster)
-        console.log('   📋 Step 1: Trying RecursiveUrlLoader...');
-        const recursiveLoader = new RecursiveUrlLoader(url, {
-            extractor: compiledConvert,
-            maxDepth: 4,
-            excludeDirs: ["/admin", "/login", "/register", "/checkout", "/cart"]
-        });
-        
-        const recursiveDocs = await recursiveLoader.load();
-        console.log(`   ✅ RecursiveUrlLoader loaded ${recursiveDocs.length} pages`);
-        
-        // Check if content is sufficient
-        const hasGoodContent = recursiveDocs.length >= 2 && 
-                              recursiveDocs.some(doc => doc.pageContent.length > 200);
-        
-        if (hasGoodContent) {
-            console.log('   ✅ Content sufficient, using RecursiveUrlLoader results');
-            return recursiveDocs;
-        }
-        
-        console.log('   ⚠️ Content too small, falling back to Playwright...');
-        
-    } catch (err) {
-        console.log('   ❌ RecursiveUrlLoader failed:', err.message);
-        console.log('   🔄 Falling back to Playwright...');
-    }
-    
-    // Step 2: Fallback to Playwright (more thorough)
-    try {
-        console.log('   📋 Step 2: Using Playwright loader...');
-        const { PlaywrightWebBaseLoader } = require('langchain/document_loaders/web/playwright');
-        
-        const playwrightLoader = new PlaywrightWebBaseLoader(url, {
-            launchOptions: { 
-                headless: true,
-                args: ['--no-sandbox', '--disable-setuid-sandbox']
-            },
-            extractor: compiledConvert,
-            waitUntil: 'networkidle',
-            maxDepth: 4,
-            maxPages: 50,
-            gotoOptions: {
-                waitUntil: 'networkidle',
-                timeout: 45000
-            }
-        });
-        
-        const playwrightDocs = await playwrightLoader.load();
-        console.log(`   ✅ Playwright loaded ${playwrightDocs.length} pages`);
-        return playwrightDocs;
-        
-    } catch (err) {
-        console.log('   ❌ Playwright also failed:', err.message);
-        throw new Error(`Both loaders failed. RecursiveUrlLoader: ${err.message}`);
-    }
-}
-//const { HierarchicalNSW } = require("hnswlib-node");
 
 const { RecursiveUrlLoader } = require("langchain/document_loaders/web/recursive_url");
 //const { HNSWLib } = require('langchain/vectorstores/hnswlib');
@@ -172,8 +88,42 @@ async function createChatBot(url,prompt){
             ]
         });
         
-        // Use hybrid loader with intelligent fallback
-        const vecdocs = await loadWithFallback(url);
+        // Use Playwright for JavaScript-heavy sites like e-commerce
+        let loader;
+        if (url.includes('shop') || url.includes('store') || url.includes('ecommerce') || url.includes('products') || url.includes('collections')) {
+            try {
+                const { PlaywrightWebBaseLoader } = require('langchain/document_loaders/web/playwright');
+                console.log('Using Playwright loader for JS-rendered pages');
+                loader = new PlaywrightWebBaseLoader(url, {
+                    launchOptions: { 
+                        headless: true,
+                        args: ['--no-sandbox', '--disable-setuid-sandbox']
+                    },
+                    extractor: compiledConvert,
+                    waitUntil: 'networkidle',
+                    maxDepth: 4,
+                    maxPages: 50,
+                    gotoOptions: {
+                        waitUntil: 'networkidle',
+                        timeout: 45000
+                    }
+                });
+            } catch (err) {
+                console.warn('Playwright failed, falling back to RecursiveUrlLoader:', err.message);
+                loader = new RecursiveUrlLoader(url, {
+                    extractor: compiledConvert,
+                    maxDepth: 3,
+                    excludeDirs: ["/admin", "/login", "/register", "/checkout", "/cart"]
+                });
+            }
+        } else {
+            loader = new RecursiveUrlLoader(url, {
+                extractor: compiledConvert,
+                maxDepth: 4,
+                excludeDirs: ["/admin", "/login", "/register", "/checkout", "/cart"]
+            });
+        }
+        const vecdocs = await loader.load();
         console.log(`Loaded ${vecdocs.length} pages from ${url}`);
         
         // Use all pages, not just the first one
@@ -248,8 +198,42 @@ async function generateChatBot(url){
             ]
         });
         
-        // Use hybrid loader with intelligent fallback
-        const vecdocs = await loadWithFallback(url);
+        // Use Playwright for JavaScript-heavy sites like e-commerce
+        let loader;
+        if (url.includes('shop') || url.includes('store') || url.includes('ecommerce') || url.includes('products') || url.includes('collections')) {
+            try {
+                const { PlaywrightWebBaseLoader } = require('langchain/document_loaders/web/playwright');
+                console.log('Using Playwright loader for JS-rendered pages');
+                loader = new PlaywrightWebBaseLoader(url, {
+                    launchOptions: { 
+                        headless: true,
+                        args: ['--no-sandbox', '--disable-setuid-sandbox']
+                    },
+                    extractor: compiledConvert,
+                    waitUntil: 'networkidle',
+                    maxDepth: 4,
+                    maxPages: 50,
+                    gotoOptions: {
+                        waitUntil: 'networkidle',
+                        timeout: 45000
+                    }
+                });
+            } catch (err) {
+                console.warn('Playwright failed, falling back to RecursiveUrlLoader:', err.message);
+                loader = new RecursiveUrlLoader(url, {
+                    extractor: compiledConvert,
+                    maxDepth: 3,
+                    excludeDirs: ["/admin", "/login", "/register", "/checkout", "/cart"]
+                });
+            }
+        } else {
+            loader = new RecursiveUrlLoader(url, {
+                extractor: compiledConvert,
+                maxDepth: 4,
+                excludeDirs: ["/admin", "/login", "/register", "/checkout", "/cart"]
+            });
+        }
+        const vecdocs = await loader.load();
         console.log(`Loaded ${vecdocs.length} pages from ${url}`);
         
         // Use all pages, not just the first one

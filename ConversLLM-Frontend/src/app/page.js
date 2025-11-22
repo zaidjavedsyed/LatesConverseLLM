@@ -9,10 +9,9 @@ import Teamsection from "@/components/teamsection";
 
 export default function Page() {
   return (
-    <div className="relative p-5">
+    <div className="relative p-5 bg-white dark:bg-slate-900 min-h-screen">
       <HeroSection />
       <FeatureSection />
-
       <FAQ_E />
       <Teamsection />
       <CTA />
